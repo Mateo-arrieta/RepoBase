@@ -31,7 +31,7 @@ import pandas as pd
 from scipy import stats
 from scipy.spatial.distance import jensenshannon
 
-from ft_engineering import (
+from mlops_pipeline.ft_engineering (
     COLS_EXCLUIDAS,
     COLS_NOMINALES,
     COLS_ORDINALES,

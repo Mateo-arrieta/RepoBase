@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 from fastapi.testclient import TestClient
 
-import model_deploy as md
+from mlops_pipeline import model_deploy as md
 
 EJEMPLO = md.Credito.model_config["json_schema_extra"]["example"]
 
