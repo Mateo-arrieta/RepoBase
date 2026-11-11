@@ -184,15 +184,18 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -
 La imagen (`Dockerfile`, `.dockerignore`) instala `requirements.txt`, copia el código y los datos,
 entrena el modelo al construirse y levanta el servidor con Uvicorn.
 
-## 6. Calidad de código
+## 6. Pruebas Unitarias, Cobertura y Calidad de Código (CI/CD)
 
-Se validan calidad, seguridad, cobertura y estilo con **SonarCloud**. Las pruebas unitarias están en
-`tests/` (pytest) y cubren limpieza de datos, entrenamiento y ranking de modelos, métricas de drift,
-alertas, la app de Streamlit y la API (JSON, CSV, nulos y errores de entrada).
+El pipeline de MLOps cuenta con integración continua mediante **GitHub Actions** y análisis de calidad continuo con **SonarCloud**.
 
-```bash
-pytest --cov=mlops_pipeline --cov-report=term-missing --cov-report=xml
-```
+### Resumen de Ejecución
+* **Estado de la suite de pruebas:** `PASS` (33/33 pruebas ejecutadas y aprobadas en runner Linux)
+* **Cobertura de Código (Code Coverage):** `62.3%` (Reportado por SonarCloud sobre 559 líneas evaluables)
+* **Líneas de Código Analizadas:** 723
+* **Duplicaciones:** `0.0%`
+
+### Badges de SonarCloud
+![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=Mateo-arrieta_RepoBase&metric=coverage)
 
 Cobertura local: **98 %** (45 pruebas). El análisis corre en GitHub Actions
 (`.github/workflows/sonarcloud.yml`) en cada push a `developer`, `certification` y `master`,
