@@ -1,0 +1,31 @@
+name: SonarCloud
+
+on:
+  push:
+    branches: [developer, certification, master]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analisis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Pruebas y cobertura
+        run: pytest --cov=mlops_pipeline --cov-report=xml
+
+      - name: Análisis de SonarCloud
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
