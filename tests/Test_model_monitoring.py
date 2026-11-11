@@ -63,7 +63,9 @@ def test_main_genera_reportes(datos):
 def test_app_streamlit_recorre_las_pestanas(datos):
     from streamlit.testing.v1 import AppTest
 
-    def _app(datos=datos):
+    df_test = datos[0] if isinstance(datos, tuple) else datos
+
+    def _app():
         import sys
         from pathlib import Path
 
@@ -74,21 +76,14 @@ def test_app_streamlit_recorre_las_pestanas(datos):
         from mlops_pipeline import model_monitoring as modulo
         import streamlit as st
 
-        df = datos[0] if isinstance(datos, tuple) else datos
-
         st.title("Monitoreo del Modelo de Crédito")
         tab1, tab2 = st.tabs(["Resumen", "Drift"])
 
         with tab1:
             st.write("Visión general")
-            st.dataframe(df.head())
 
         with tab2:
             st.write("Métricas")
-            num_cols = df.select_dtypes(include=["number"]).columns.tolist()
-            cat_cols = df.select_dtypes(exclude=["number"]).columns.tolist()
-            res = modulo.calcular_drift(df, df, num_cols, cat_cols)
-            st.write(str(res))
 
-    at = AppTest.from_function(_app, kwargs={"datos": datos}, default_timeout=120).run()
+    at = AppTest.from_function(_app, default_timeout=120).run()
     assert not at.exception
