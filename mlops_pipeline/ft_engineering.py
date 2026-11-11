@@ -49,7 +49,7 @@ COLS_EXCLUIDAS = ["puntaje"]
 
 # Sitios donde puede estar el CSV (se prueba en este orden)
 RUTAS_CSV = [
-    Path("data/BD_creditos.csv"),
+    Path("../data/BD_creditos.csv"),
     Path("Base_de_datos.csv"),
     Path("../Base_de_datos.csv"),
     Path("../data/BD_creditos.csv"),
@@ -61,13 +61,31 @@ RUTAS_CSV = [
 # ---------------------------------------------------------------------------
 def cargar_datos(ruta=None) -> pd.DataFrame:
     """Lee el CSV. Si no se indica ruta, busca en las rutas habituales del repo."""
-    base = Path(__file__).resolve().parent
-    candidatas = [Path(ruta)] if ruta else [base / r for r in RUTAS_CSV] + RUTAS_CSV
+    raiz_proyecto = Path(__file__).resolve().parent.parent
+
+    if ruta:
+        path_ruta = Path(ruta)
+        candidatas = [
+            path_ruta,
+            raiz_proyecto / path_ruta,
+            raiz_proyecto / path_ruta.name,
+            raiz_proyecto / "data" / path_ruta.name,
+        ]
+    else:
+        candidatas = [
+            raiz_proyecto / "data" / "BD_creditos.csv",
+            raiz_proyecto / "Base_de_datos.csv",
+            raiz_proyecto / "data" / "Base_de_datos.csv",
+            Path("data/BD_creditos.csv"),
+            Path("Base_de_datos.csv"),
+        ]
+
     for candidata in candidatas:
         if candidata.exists():
             return pd.read_csv(candidata, parse_dates=COLS_FECHA)
+
     raise FileNotFoundError(
-        "No se encontró el CSV. Pasa la ruta: get_data(ruta='data/BD_creditos.csv')"
+        f"No se encontró el CSV en ninguna de las rutas intentadas: {candidatas}"
     )
 
 

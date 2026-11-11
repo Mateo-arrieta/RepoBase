@@ -38,7 +38,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
-from ft_eng import RANDOM_STATE, get_data
+from mlops_pipeline.ft_engineering import RANDOM_STATE, get_data
 
 # ---------------------------------------------------------------------------
 # Configuración
