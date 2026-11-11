@@ -186,4 +186,16 @@ entrena el modelo al construirse y levanta el servidor con Uvicorn.
 
 ## 6. Calidad de código
 
-_Pendiente: resultados de SonarCloud (calidad, seguridad, cobertura y estilo)._
+Se validan calidad, seguridad, cobertura y estilo con **SonarCloud**. Las pruebas unitarias están en
+`tests/` (pytest) y cubren limpieza de datos, entrenamiento y ranking de modelos, métricas de drift,
+alertas, la app de Streamlit y la API (JSON, CSV, nulos y errores de entrada).
+
+```bash
+pytest --cov=mlops_pipeline --cov-report=term-missing --cov-report=xml
+```
+
+Cobertura local: **98 %** (45 pruebas). El análisis corre en GitHub Actions
+(`.github/workflows/sonarcloud.yml`) en cada push a `developer`, `certification` y `master`,
+con la configuración de `sonar-project.properties`.
+
+_Resultados de SonarCloud (quality gate, bugs, vulnerabilidades, duplicación): pendiente de completar._
