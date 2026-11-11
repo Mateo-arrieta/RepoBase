@@ -21,7 +21,7 @@ def ruta_csv():
 
 @pytest.fixture(scope="session")
 def datos():
-    from ft_engineering import get_data
+    from mlops_pipeline.ft_engineering import get_data
 
     return get_data(ruta=CSV)
 
